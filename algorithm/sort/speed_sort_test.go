@@ -6,15 +6,16 @@
 package sort
 
 import (
+	"fmt"
 	"testing"
 )
 
 func TestSpeedSort(t *testing.T) {
-	var array = []int{1, 3, 2, 54, 223, 666, 2, 23, 12, 53}
-	res := SppedSortOne(array, 0, len(array)-1)
-	t.Log(res)
-	//res = SpeedSortTwo(array)
+	var array = []int{19, 97, 9, 17, 1, 8}
+	//res := SppedSortOne(array, 0, len(array)-1)
 	//t.Log(res)
+	res := SppedSortOnes(array, 0, len(array)-1)
+	t.Log(res)
 }
 
 /*
@@ -51,39 +52,35 @@ func SppedSortOne(array []int, left int, right int) []int {
 	return array
 }
 
-//错误操作，待研究
+/*
+快慢指针
+视频参考：https://www.bilibili.com/video/BV1Ab411s7To/?spm_id_from=333.788.videocard.0
+*/
+//todo 快指针j循环到len-1的过程中，如果array[j]<middle,慢指针i向前移动一位，array[i]和array[j]互换
 func SppedSortOnes(array []int, left int, right int) []int {
 	if left > right {
 		return array
 	}
-	middle := array[left] //选定第一个元素作为中心轴
-	l, r := left, right
-	for {
-		if array[r] < middle{  //1, 3, 2, 54, 223, 666, 2, 23, 12, 53
-			//右侧值大于等于中心轴时，不交换数据，向左移动一位
-			array[l] ,array[r] = array[r] , array[l]
-			l++
-		} else {
-			r--
-		}
-		if array[l] > middle{
-			//左侧值小于等于中心轴时，不交换数据，向右移动一位
-			array[l] ,array[r] = array[r] , array[l]
-			r--
-		} else {
-			l++
-		}
-
-		if l >= r {
-			//将中心轴的值移动到当前位置
-			array[left] = array[l]
-			array[l] = middle
-			break
+	middle := array[right] //选定最后一个元素作为中心轴
+	i, j := -1, left
+	for j = left; j < right; j++ {
+		if array[j] < middle {
+			i++
+			if i != j {
+				array[i], array[j] = array[j], array[i]
+			}
 		}
 	}
-	println(l,r)
-	//SppedSortOne(array, left, l-1)
-	//SppedSortOne(array, l+1, right)
+	//todo 将middle替换到中间
+	array[i+1], array[right] = array[right], array[i+1]
+	println(i, j)
+	fmt.Printf("%v", array[:i+1])
+	if len(array[:i+1]) > 1 {
+		SppedSortOnes(array[:i+1], 0, len(array[:i+1])-1)
+	}
+	if len(array[i+2:]) > 1 {
+		SppedSortOnes(array[i+2:], 0, len(array[i+2:])-1)
+	}
 	return array
 }
 
