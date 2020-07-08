@@ -6,7 +6,6 @@
 package sort
 
 import (
-	"fmt"
 	"testing"
 )
 
@@ -73,8 +72,6 @@ func SppedSortOnes(array []int, left int, right int) []int {
 	}
 	//todo 将middle替换到中间
 	array[i+1], array[right] = array[right], array[i+1]
-	println(i, j)
-	fmt.Printf("%v", array[:i+1])
 	if len(array[:i+1]) > 1 {
 		SppedSortOnes(array[:i+1], 0, len(array[:i+1])-1)
 	}
