@@ -1,27 +1,31 @@
 package string
 
 import (
-	"strconv"
+	"fmt"
+	"math"
 	"testing"
 )
 
 func TestIntReverse(t *testing.T) {
-	var num = -210300000
+	var num = -210300001
+	res := intReverse(num)
+	fmt.Printf("反转结果为：%v\n", res)
 }
 
 func intReverse(num int) int {
-	var t = 1 //0表示正数
-	n := num
-	if num < 0 {
-		t = -1
-		n = -num
+	var res = 0
+	for num != 0 {
+		now := num % 10 //余数为所需值
+		if res*10 > math.MaxInt32 || (res*10 == math.MaxInt32 && now > 7) {
+			res = 0
+			break
+		}
+		if res*10 < math.MinInt32 || (res*10 == math.MinInt32 && now < -8) {
+			res = 0
+			break
+		}
+		res = res*10 + now
+		num /= 10
 	}
-	//将n反转
-	s := strconv.Itoa(n)
-	d :=1//判断当前字符是否有效
-
-
-
-
-	return 1
+	return res
 }
