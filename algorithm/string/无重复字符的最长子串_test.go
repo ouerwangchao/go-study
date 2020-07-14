@@ -26,7 +26,7 @@ func GetChildStrThree(str string) int {
 			delete(m, str[i-1])
 		}
 		for rk < length && m[str[rk]] == 0 { //窗口向右扩大  m[str[rk]] == 0表示当前字符未出现
-			m[str[rk]] ++
+			m[str[rk]]++
 			rk++
 		}
 		num = GetMax(num, rk-i)
@@ -92,7 +92,7 @@ func CheckRepeat(arr []string) bool {
 			res = false
 			break
 		} else {
-			m[v] += 1
+			m[v]++
 		}
 	}
 	return res

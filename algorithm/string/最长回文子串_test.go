@@ -31,7 +31,7 @@ func getChildStrThree(str string) string {
 			}
 		}
 	}
-
+	return res
 }
 
 func getMax(num, compare int) int {
