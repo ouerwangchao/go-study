@@ -15,35 +15,35 @@ import (
 */
 
 //节点
-type LinkNode struct {
+type LinkNodes struct {
 	Key   int
 	Value int
-	Prev  *LinkNode
-	Next  *LinkNode
+	Prev  *LinkNodes
+	Next  *LinkNodes
 }
 
 //LRU结构
 type LruCache struct {
 	Cap      int
-	CacheMap map[int]*LinkNode
-	Head     *LinkNode
-	Tail     *LinkNode
+	CacheMap map[int]*LinkNodes
+	Head     *LinkNodes
+	Tail     *LinkNodes
 }
 
 var l LruCache
 
 //初始化LRU
 func InitLru(c int) {
-	head := &LinkNode{0, 0, nil, nil}
-	tail := &LinkNode{0, 0, nil, nil}
+	head := &LinkNodes{0, 0, nil, nil}
+	tail := &LinkNodes{0, 0, nil, nil}
 	head.Next = tail
 	tail.Prev = head
-	cacheMap := make(map[int]*LinkNode, c)
+	cacheMap := make(map[int]*LinkNodes, c)
 	l = LruCache{c, cacheMap, head, tail}
 }
 
 //将节点插入循环链表头结点之后
-func (lrc *LruCache) addNodeFirst(node *LinkNode) {
+func (lrc *LruCache) addNodeFirst(node *LinkNodes) {
 	node.Prev = lrc.Head
 	node.Next = lrc.Head.Next
 	lrc.Head.Next = node
@@ -51,13 +51,13 @@ func (lrc *LruCache) addNodeFirst(node *LinkNode) {
 }
 
 //删除节点
-func (lrc *LruCache) RemoveNode(node *LinkNode) {
+func (lrc *LruCache) RemoveNode(node *LinkNodes) {
 	node.Prev.Next = node.Next
 	node.Next.Prev = node.Prev
 }
 
 //将节点移动到循环链表头结点之后
-func (lrc *LruCache) MoveToFirst(node *LinkNode) {
+func (lrc *LruCache) MoveToFirst(node *LinkNodes) {
 	lrc.RemoveNode(node)
 	lrc.addNodeFirst(node)
 }
@@ -85,7 +85,7 @@ func (lrc *LruCache) put(key, value int) {
 			lrc.RemoveNode(node)
 			delete(lrc.CacheMap, node.Key)
 		}
-		node = &LinkNode{key, value, nil, nil}
+		node = &LinkNodes{key, value, nil, nil}
 		lrc.addNodeFirst(node)
 		lrc.CacheMap[key] = node
 	}
